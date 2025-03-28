@@ -8,49 +8,56 @@
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            margin: 20px;
-            transform: scale(0.6);
-            transform-origin: top left;
-            background-color: #f3f3f3;
+            margin: 0; /* Removed extra space */
+            padding: 0; /* Remove any padding */
+            background-color: #ececec;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center; /* Centers the container horizontally */
+            align-items: center; /* Centers the container vertically */
+            height: 100vh; /* Full viewport height */
         }
         #timer {
-            font-size: 4em;
-            margin: 20px;
-            padding: 20px;
-            background-color: #333;
+            font-size: 3em;
+            margin: 5px;
+            padding: 5px;
+            background-color: #222;
             color: #fff;
-            border-radius: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         button {
             font-size: 1.2em;
-            padding: 15px 30px;
-            margin: 20px;
-            background-color: #007bff;
+            padding: 12px 20px;
+            margin: 10px;
+            background-color: #0003ff;
             color: #fff;
-            border: none;
-            border-radius: 8px;
+            border: 1px solid #080bca;
+            border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #1e2070;
         }
         input {
             font-size: 1.2em;
             padding: 10px;
             width: 80px;
             text-align: center;
-            border: 2px solid #ccc;
+            border: 2px solid #c282bd;
             border-radius: 8px;
             margin: 10px;
         }
         .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
+            background-color: #1bc5d8;
+            padding: 20px;
+            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: auto; /* Ensures container width adjusts based on content */
+            max-width: 220px; /* Prevents the container from being too large */
+            margin: 0; /* No extra margin */
         }
     </style>
 </head>
@@ -77,6 +84,10 @@
                 if (seconds <= 0) {
                     clearInterval(countdown);
                     alarm.play();  // Play sound when countdown reaches 0
+                    setTimeout(() => {
+                        alarm.pause();  // Stop sound after 5 seconds
+                        alarm.currentTime = 0;  // Reset sound to the beginning
+                    }, 5000);  // 5 seconds
                 } else {
                     seconds--;
                     displayTime(seconds);
