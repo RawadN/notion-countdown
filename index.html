@@ -6,38 +6,66 @@
     <title>Countdown Timer</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
             margin: 20px;
-            transform: scale(0.5);
+            transform: scale(0.6);
             transform-origin: top left;
+            background-color: #f3f3f3;
         }
         #timer {
-            font-size: 3em;
-            margin: 10px;
+            font-size: 4em;
+            margin: 20px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 10px;
         }
         button {
-            font-size: 1em;
-            padding: 5px 10px;
-            margin: 5px;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            margin: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         input {
-            font-size: 1em;
-            padding: 3px;
+            font-size: 1.2em;
+            padding: 10px;
+            width: 80px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin: 10px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <h1>Countdown Timer</h1>
-    <input type="number" id="minutes" placeholder="Minutes" min="0">
-    <button onclick="startCountdown()">Start</button>
-    <div id="timer">00:00</div>
-    <audio id="alarm" src="https://raw.githubusercontent.com/your-username/your-repo/main/audio/alarm.wav" preload="auto"></audio>
+    <div class="container">
+        <input type="number" id="minutes" placeholder="Min" min="0">
+        <button onclick="startCountdown()">Start</button>
+        <div id="timer">00:00</div>
+    </div>
+
+    <audio id="alarm" src="https://raw.githubusercontent.com/RawadN/notion-countdown/main/alarm.mp3" preload="auto"></audio>
 
     <script>
         let countdown;
         let alarm = document.getElementById('alarm');
-        let soundPlayed = false;
 
         function startCountdown() {
             clearInterval(countdown);
@@ -45,29 +73,15 @@
             let seconds = minutes * 60;
             displayTime(seconds);
 
-            // Start the countdown
             countdown = setInterval(() => {
                 if (seconds <= 0) {
                     clearInterval(countdown);
-                    if (!soundPlayed) {
-                        playSound();
-                    }
+                    alarm.play();  // Play sound when countdown reaches 0
                 } else {
                     seconds--;
                     displayTime(seconds);
                 }
             }, 1000);
-
-            // Allow sound to play after user interaction
-            soundPlayed = false;
-            alarm.pause();
-            alarm.currentTime = 0;
-        }
-
-        function playSound() {
-            alarm.play();
-            soundPlayed = true;
-            setTimeout(() => alarm.pause(), 10000);
         }
 
         function displayTime(seconds) {
