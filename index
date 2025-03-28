@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #timer {
+            font-size: 3em;
+            margin: 20px;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    <input type="number" id="minutes" placeholder="Minutes" min="0" style="font-size:1.2em; padding:5px;">
+    <button onclick="startCountdown()">Start</button>
+    <div id="timer">00:00</div>
+    <audio id="alarm" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+    
+    <script>
+        let countdown;
+        function startCountdown() {
+            clearInterval(countdown);
+            let minutes = document.getElementById('minutes').value;
+            let seconds = minutes * 60;
+            displayTime(seconds);
+            
+            countdown = setInterval(() => {
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById('alarm').play();
+                    setTimeout(() => document.getElementById('alarm').pause(), 10000);
+                } else {
+                    seconds--;
+                    displayTime(seconds);
+                }
+            }, 1000);
+        }
+
+        function displayTime(seconds) {
+            let min = Math.floor(seconds / 60);
+            let sec = seconds % 60;
+            document.getElementById('timer').innerText = 
+                `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
