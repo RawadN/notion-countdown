@@ -32,26 +32,42 @@
     <input type="number" id="minutes" placeholder="Minutes" min="0">
     <button onclick="startCountdown()">Start</button>
     <div id="timer">00:00</div>
-    <audio id="alarm" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+    <audio id="alarm" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
     
     <script>
         let countdown;
+        let alarm = document.getElementById('alarm');
+        let soundPlayed = false;
+
         function startCountdown() {
             clearInterval(countdown);
             let minutes = document.getElementById('minutes').value;
             let seconds = minutes * 60;
             displayTime(seconds);
-            
+
+            // Start the countdown
             countdown = setInterval(() => {
                 if (seconds <= 0) {
                     clearInterval(countdown);
-                    document.getElementById('alarm').play();
-                    setTimeout(() => document.getElementById('alarm').pause(), 10000);
+                    if (!soundPlayed) {
+                        playSound();
+                    }
                 } else {
                     seconds--;
                     displayTime(seconds);
                 }
             }, 1000);
+
+            // Allow sound to play after user interaction
+            soundPlayed = false;
+            alarm.pause();
+            alarm.currentTime = 0;
+        }
+
+        function playSound() {
+            alarm.play();
+            soundPlayed = true;
+            setTimeout(() => alarm.pause(), 10000);
         }
 
         function displayTime(seconds) {
